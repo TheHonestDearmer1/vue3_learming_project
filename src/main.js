@@ -1,6 +1,13 @@
+import { createApp } from 'vue';
+import App from './App.vue';
+import cookies from 'vue-cookies';
+import naive from "naive-ui";
+const app = createApp(App);
+app.config.globalProperties.$cookies = cookies;
+app.config.globalProperties.$cookies.config('1d');
 
-import { createApp } from 'vue'
-import App from './App.vue'
+app.use(naive);
 
-createApp(App).mount('#app')
-// https://vitejs.dev/config/
+app.mount('#app');
+
+

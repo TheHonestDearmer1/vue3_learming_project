@@ -1,22 +1,29 @@
 <script setup> 
 import banners from './components/banners1.vue';
-import MNG_Menu from './components/MNG_Menu.vue';
 import login from './components/login.vue'
-import { ref } from 'vue';
+import home from './components/home.vue'
+import custom from './components/custom.vue'
+import { ref, computed } from 'vue'
 
-const tabs = {
-  banners,
-  login
+const routes = {   
+  '/': home,      //创建路由指定的位置
+  '/banners': banners,
+  '/login':login,
+  '/custom':custom
 }
-var tabs_name = ref('home');
+const currentPath = ref(window.location.hash)
+window.addEventListener('hashchange', () => {
+  currentPath.value = window.location.hash
+})
+const currentView = computed(() => {
+  return routes[currentPath.value.slice(1) || '/'] || NotFound
+})
 
-function ChangeMenuCom(tabsName){
-   tabs_name.value = tabsName;
-}
 </script>
 
 <template>
-    <MNG_Menu>
- <component :is="tabs[tabs_name]" :ChangeMenuCom="ChangeMenuCom"></component>
-    </MNG_Menu>
+<n-message-provider>
+    <component :is="currentView"/>
+</n-message-provider>
 </template>
+
