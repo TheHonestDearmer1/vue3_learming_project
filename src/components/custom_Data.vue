@@ -8,10 +8,19 @@
 </template>
 
 <script setup>
-import { h, onBeforeMount, reactive } from 'vue';
+import { h, onBeforeMount, reactive,watch} from 'vue';
 import { NButton, useMessage,NAvatar } from 'naive-ui';
 import axios from 'axios';
-
+import cookies from 'vue-cookies'
+const props = defineProps({
+  addBannersChange: {
+      type: Boolean,
+      requre: true
+    }
+})
+watch(()=>props.addBannersChange,()=>{
+  fetchData();
+})
 const createColumns = ({ play }) => {
   return [
     {
@@ -78,6 +87,11 @@ const fetchData = () => {
 };
 
 onBeforeMount(() => {
+  var token = cookies.get('token');
+  if (token == null){
+    alert("用户未登录")
+    window.location.href='/#/login'
+  }
   fetchData();
 });
 

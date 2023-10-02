@@ -11,6 +11,7 @@
 import { h, onBeforeMount, reactive,defineProps,watch } from 'vue';
 import { NButton, useMessage } from 'naive-ui';
 import axios from 'axios';
+import cookies from 'vue-cookies'
 const props = defineProps({
   addBannersChange: {
       type: Boolean,
@@ -78,6 +79,11 @@ const fetchData = () => {
 };
 
 onBeforeMount(() => {
+  var token = cookies.get('token');
+  if (token == null){
+    alert("用户未登录")
+    window.location.href='/#/login'
+  }
   fetchData();
 });
 
