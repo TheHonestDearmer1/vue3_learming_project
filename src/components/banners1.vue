@@ -23,15 +23,15 @@
       <template #prefix>
       </template>
     </n-input>
-    <n-input placeholder="链接" :disabled="change_open" v-model:value="banners_href">
+    <n-input placeholder="链接" :disabled="change_open" v-model:value="banners_href" >
       <template #prefix>
       </template>
     </n-input>
     <div style="display: flex; justify-content:space-between;">
-        <n-button type="primary" style="width: 100px;" @click="add_banners">
+        <n-button type="primary" style="width: 100px;" @click="add_banners" :disabled="change_open">
       添加
     </n-button>
-    <n-button type="primary" style="width: 100px;" @click="change_open = true" >
+    <n-button type="primary" style="width: 100px;" @click="change_open = true" :disabled="change_open" >
       修改
     </n-button>
     </div>
@@ -99,7 +99,7 @@
   </template>
   
     <script>
-    import { defineComponent,ref } from 'vue';
+    import { defineComponent} from 'vue';
     import { useMessage } from 'naive-ui'
     import Demo from "./banners_Data.vue";
     import axios from "axios";
