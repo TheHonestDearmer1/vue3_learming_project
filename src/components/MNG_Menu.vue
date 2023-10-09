@@ -53,21 +53,25 @@ var menuOptions = reactive([
     label: "主页",
     key: "home",
     href: "#/",
+    onClick:()=>{
+      window.location.href="#/"
+      window.location.reload();
+    }
   },
   {
     label: "banners",
     key: "banners",
-    href: "#/banners",
+    href: "#/admin/banners",
   },
   {
     label: "用户评论",
     key: "usermsg",
-    href: "#/custom",
+    href: "#/admin/custom",
   },
   {
     label: "登录",
     key: "login",
-    href: "#/login",
+    href: "#/admin/login",
   },
 ]);
 
@@ -88,7 +92,7 @@ export default defineComponent({
     {
     label: "用户信息",
     key: "userinfo",
-    href: "/#/",
+    href: "#/admin",
   },
     {
     label: "登出",
@@ -104,7 +108,7 @@ export default defineComponent({
       menuOptions.push({
     label: "登录",
     key: "login",
-    href: "/#/login",
+    href: "/#/admin/login",
   });
   message.success("退出登录成功")
     },

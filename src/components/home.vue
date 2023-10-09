@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent,nextTick } from "vue";
 import MNG_Menu from "./MNG_Menu.vue";
 export default defineComponent({
 components: {

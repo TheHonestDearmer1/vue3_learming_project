@@ -12,6 +12,10 @@ import { h, onBeforeMount, reactive,watch} from 'vue';
 import { NButton, useMessage,NAvatar } from 'naive-ui';
 import axios from 'axios';
 import cookies from 'vue-cookies'
+
+const emit = defineEmits(['changeButton']);
+
+
 const props = defineProps({
   addBannersChange: {
       type: Boolean,
@@ -21,7 +25,7 @@ const props = defineProps({
 watch(()=>props.addBannersChange,()=>{
   fetchData();
 })
-const createColumns = ({ play }) => {
+const createColumns = ({ play, edit }) => {
   return [
     {
       title: 'ID',
@@ -47,22 +51,41 @@ const createColumns = ({ play }) => {
           }
         );
       },
+      
     },
     {
       title: 'Action',
       key: 'actions',
       render(row) {
-        return h(
-          NButton,
-          {
-            strong: true,
-            tertiary: true,
-            size: 'medium',
-            onClick: () => play(row)
-          },
-          { default: () => '删除' }
-        );
-      },
+    return h('div', [
+    h(
+        NButton,
+        {
+          strong: true,
+          tertiary: true,
+          size: 'medium',
+          onClick: () => edit(row),
+          style: {
+            marginRight: '10px'
+          }
+        },
+        () => '编辑'
+      ),
+      h(
+        NButton,
+        {
+          strong: true,
+          tertiary: true,
+          size: 'medium',
+          onClick: () => play(row),
+          style: {
+            marginLeft: '10px'
+          }
+        },
+        () => '删除'
+      )
+    ]);
+  }
     }
   ];
 };
@@ -90,7 +113,7 @@ onBeforeMount(() => {
   var token = cookies.get('token');
   if (token == null){
     alert("用户未登录")
-    window.location.href='/#/login'
+    window.location.href='/#/admin/login'
   }
   fetchData();
 });
@@ -114,8 +137,12 @@ const play = (row) => {
       console.log(error);
     });
 };
+const edit = (row) => {
+  console.log(row.ID);
+  emit('changeButton', row.ID);
+};
 
-const columns = createColumns({ play });
+const columns = createColumns({ play, edit });
 const pagination = false;
 
 </script>

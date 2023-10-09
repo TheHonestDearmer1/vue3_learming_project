@@ -81,7 +81,7 @@ function register(){
     }else{
       message.success("注册成功");
       cookies.set('token',response.data.token)
-      window.location.href = "/#/";
+      window.location.href = "/#/admin";
     }
   })
   .catch(function (error) {
@@ -104,7 +104,7 @@ function login(){
       message.success("用户"+login_username.value+"登录成功");
       cookies.set('token',response.data.token);
       console.log(response.data.token);
-      window.location.href = "/#/";
+      window.location.href = "/#/admin";
     }
   })
   .catch(function (error) {

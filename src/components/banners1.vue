@@ -27,12 +27,9 @@
       <template #prefix>
       </template>
     </n-input>
-    <div style="display: flex; justify-content:space-between;">
-        <n-button type="primary" style="width: 100px;" @click="add_banners" :disabled="change_open">
+    <div style="display: flex; justify-content:center;">
+        <n-button type="primary" style="width: 100%;" @click="add_banners" :disabled="change_open">
       添加
-    </n-button>
-    <n-button type="primary" style="width: 100px;" @click="change_open = true" :disabled="change_open" >
-      修改
     </n-button>
     </div>
   </n-space>
@@ -42,7 +39,7 @@
       <n-message-provider>
         <n-notification-provider>
           <n-dialog-provider>
-            <Demo v-model:addBannersChange="addBannersChange"/>
+            <Demo v-model:addBannersChange="addBannersChange" @changeButton="changeButton"/>
           </n-dialog-provider>
         </n-notification-provider>
       </n-message-provider>
@@ -65,10 +62,6 @@
         <n-space vertical style="
         width: 300px;
         "> 
-    <n-input placeholder="ID"  v-model:value="change_banners_ID">
-      <template #prefix>
-      </template>
-    </n-input>
     <n-input placeholder="标题" v-model:value="change_banners_title">
       <template #prefix>
       </template>
@@ -125,6 +118,10 @@
       }
     },
     methods:{
+      changeButton(id){
+           this.change_banners_ID = id;
+           this.change_open = true;
+          },
       //添加函数
       add_banners(){
         //请求函数

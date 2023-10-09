@@ -27,9 +27,6 @@
           <n-button type="primary"  @click="update_action" :disabled="change_open" >
      添加
     </n-button>
-    <n-button type="primary"  @click="change_open = true" :disabled="change_open" >
-     修改
-    </n-button>
           <iframe  name="result-frame" style="display: none;"></iframe>
     <h3 class="wrap" v-if="!change_open">{{ this.files_name }}</h3>
      </div>
@@ -38,7 +35,7 @@
       <n-message-provider>
         <n-notification-provider>
           <n-dialog-provider>
-            <custom_Data :addBannersChange="addBannersChange"/>
+            <custom_Data :addBannersChange="addBannersChange" @changeButton="changeButton"/>
           </n-dialog-provider>
         </n-notification-provider>
       </n-message-provider>
@@ -52,10 +49,6 @@
     <div style="display: flex; justify-content: center; align-items: center; width: 100%; margin: 0px;">
      <div style="display: grid; gap: 10px; width: 100%;"> 
       <h1 style="display: flex; justify-content: center; align-items: center;">用户评论</h1>
-      <n-input placeholder="ID" v-model:value="custom_ID">
-      <template #prefix>
-      </template>
-    </n-input>
       <n-input placeholder="标题" v-model:value="change_custom_title">
       <template #prefix>
       </template>
@@ -106,6 +99,10 @@
           custom_Data
         },
         methods:{
+          changeButton(id){
+           this.custom_ID = id;
+           this.change_open = true;
+          },
         update_action(){
           //进行提交操作
           console.log("提交");

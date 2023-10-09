@@ -1,27 +1,32 @@
 <template>
-    <n-data-table
+  <n-data-table
     :columns="columns"
     :data="data"
     :pagination="pagination"
     :bordered="false"
-  />
+  ></n-data-table>
 </template>
 
 <script setup>
-import { h, onBeforeMount, reactive,defineProps,watch } from 'vue';
+import { h, onBeforeMount, reactive, defineProps, watch } from 'vue';
 import { NButton, useMessage } from 'naive-ui';
 import axios from 'axios';
-import cookies from 'vue-cookies'
+import cookies from 'vue-cookies';
+
+const emit = defineEmits(['changeButton']);
+
 const props = defineProps({
   addBannersChange: {
-      type: Boolean,
-      requre: true
-    }
-})
-watch(()=>props.addBannersChange,()=>{
+    type: Boolean,
+    require: true
+  }
+});
+
+watch(() => props.addBannersChange, () => {
   fetchData();
-})
-const createColumns = ({ play }) => {
+});
+
+const createColumns = ({ play, edit }) => {
   return [
     {
       title: 'ID',
@@ -40,21 +45,39 @@ const createColumns = ({ play }) => {
       key: 'href'
     },
     {
-      title: 'Action',
-      key: 'actions',
-      render(row) {
-        return h(
-          NButton,
-          {
-            strong: true,
-            tertiary: true,
-            size: 'medium',
-            onClick: () => play(row)
-          },
-          { default: () => '删除' }
-        );
-      }
-    }
+  title: 'Action',
+  key: 'actions',
+  render(row) {
+    return h('div', [
+    h(
+        NButton,
+        {
+          strong: true,
+          tertiary: true,
+          size: 'medium',
+          onClick: () => edit(row),
+          style: {
+            marginRight: '10px'
+          }
+        },
+        () => '编辑'
+      ),
+      h(
+        NButton,
+        {
+          strong: true,
+          tertiary: true,
+          size: 'medium',
+          onClick: () => play(row),
+          style: {
+            marginLeft: '10px'
+          }
+        },
+        () => '删除'
+      )
+    ]);
+  }
+}
   ];
 };
 
@@ -80,9 +103,9 @@ const fetchData = () => {
 
 onBeforeMount(() => {
   var token = cookies.get('token');
-  if (token == null){
-    alert("用户未登录")
-    window.location.href='/#/login'
+  if (token == null) {
+    alert('用户未登录');
+    window.location.href = '/#/admin/login';
   }
   fetchData();
 });
@@ -107,8 +130,11 @@ const play = (row) => {
     });
 };
 
-const columns = createColumns({ play });
+const edit = (row) => {
+  console.log(row.ID);
+  emit('changeButton', row.ID);
+};
+
+const columns = createColumns({ play, edit });
 const pagination = false;
-
 </script>
-
